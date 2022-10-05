@@ -68,11 +68,6 @@ export default function PokemonInfo({ pokemonId }) {
           <p>{findUniqueMoves(pokemonEl.moves)}</p>
         </li>
       </ul>
-      {/* <ul>
-        {pokemonEl.types.map((type) => (
-          <li key={type.slot}>{type.type.name}</li>
-        ))}
-      </ul> */}
     </li>
   );
 }

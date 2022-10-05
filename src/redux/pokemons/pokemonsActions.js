@@ -11,6 +11,16 @@ const getPokemonError = createAction("pokemons/GetPokemonError");
 const getTypesRequest = createAction("pokemons/GetTypesRequest");
 const getTypesSuccess = createAction("pokemons/GetTypesSuccess");
 const getTypesError = createAction("pokemons/GetTypesError");
+
+const getTypesPokemonsRequest = createAction(
+  "pokemons/GetTypesPokemonsRequest"
+);
+const getTypesPokemonsSuccess = createAction(
+  "pokemons/GetTypesPokemonsSuccess"
+);
+const getTypesPokemonsError = createAction("pokemons/GetTypesPokemonsError");
+
+const setType = createAction("pokemons/SetType");
 export default {
   getPokemonsRequest,
   getPokemonsSuccess,
@@ -21,4 +31,8 @@ export default {
   getTypesRequest,
   getTypesSuccess,
   getTypesError,
+  getTypesPokemonsRequest,
+  getTypesPokemonsSuccess,
+  getTypesPokemonsError,
+  setType,
 };
