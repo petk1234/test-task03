@@ -1,0 +1,42 @@
+.pokemonsSection {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.pokemonsContainer {
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+.pokemonsList {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  justify-content: space-around;
+  @media all and (min-width: 600px) {
+    width: 100%;
+  }
+}
+.loadPokemons {
+  width: 90%;
+  height: 50px;
+  margin: 0 auto 30px auto;
+  z-index: 2;
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(97, 158, 238);
+  color: #fff;
+}
+.leftSide {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  @media all and (min-width: 600px) {
+    width: 60%;
+  }
+}

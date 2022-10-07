@@ -21,6 +21,8 @@ const getTypesPokemonsSuccess = createAction(
 const getTypesPokemonsError = createAction("pokemons/GetTypesPokemonsError");
 
 const setType = createAction("pokemons/SetType");
+const setLoading = createAction("pokemons/SetLoading");
+const unsetLoading = createAction("pokemons/UnsetLoading");
 export default {
   getPokemonsRequest,
   getPokemonsSuccess,
@@ -35,4 +37,6 @@ export default {
   getTypesPokemonsSuccess,
   getTypesPokemonsError,
   setType,
+  setLoading,
+  unsetLoading,
 };

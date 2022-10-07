@@ -1,0 +1,44 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  position: relative;
+  margin-right: auto;
+  justify-content: center;
+  align-items: center;
+  width: 360px;
+  height: 100%;
+  @media all and (min-width: 600px) {
+    width: 95%;
+    margin-left: 0;
+  }
+  @media all and (min-width: 640px) {
+    width: 95%;
+    margin-left: auto;
+  }
+  @media all and (min-width: 900px) {
+    width: 95%;
+    margin-left: auto;
+  }
+  @media all and (min-width: 1200px) {
+    width: 95%;
+    margin-left: auto;
+  }
+}
+.headerTitle {
+  font-size: 50px;
+}
+html,
+body {
+  height: 100%;
+}
+header {
+  border: 1px solid #000;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  @media all and (min-width: 600px) {
+    width: 40%;
+  }
+}

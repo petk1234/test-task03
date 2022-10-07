@@ -1,100 +1,54 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import pokemonsOperations from "../../redux/pokemons/pokemonsOperations";
-import PokemonCard from "../pokemon_card/PokemonCard";
+import usePokemonList from "./usePokemonsList";
 import PokemonInfo from "../pokemon_info/PokemonInfo";
 import Loader from "../loader/Loader";
+import PokemonsCards from "../pokemons_cards/PokemonsCards";
+import styles from "./pokemonList.module.scss";
 export default function PokemonList() {
-  const dispatch = useDispatch();
-  const [pokemons, nextPokemons, isLoading, activeType] = useSelector(
-    (state) => [
-      state.pokemons,
-      state.nextQueries,
-      state.isLoading,
-      state.activeType,
-    ]
-  );
-  // console.log(pokemons);
-  const [clickedCard, setClickedCard] = useState(0);
-  const [partialContent, setPartialContent] = useState(12);
-  const [previousType, setPreviousType] = useState("");
-  // const [pokemons_partial, setPokemonsPartial] = useState([]);
-  let pokemons_partial = [];
-  if (activeType !== previousType) {
-    setPartialContent(12);
-    setPreviousType(activeType);
-    setClickedCard(0);
-    console.log("dsd");
-  }
-  if (activeType !== "") {
-    for (let i = 0; i < partialContent; i++) {
-      pokemons_partial.push(pokemons[i]);
-    }
-  }
-  const handleLoadMore = () => {
-    if (activeType === "") {
-      dispatch(pokemonsOperations.getPokemons(nextPokemons));
-    } else if (pokemons.length - partialContent > 12) {
-      setPartialContent(partialContent + 12);
-    } else {
-      setPartialContent(pokemons.length);
-    }
-    setClickedCard(0);
-  };
-  useEffect(() => {
-    // console.log("ddd");
-    // console.log(activeType);
-    // console.log(pokemons);
-    dispatch(pokemonsOperations.getPokemons());
-    // if (activeType !== previousType) {
-    //   setPartialContent(12);
-    //   setPreviousType(activeType);
-    //   setClickedCard(0);
-    //   console.log("dsd");
-    // }
-    // if (activeType !== "") {
-    //   let rr = [];
-    //   for (let i = 0; i < partialContent; i++) {
-    //     // pokemons_partial.push(pokemons[i]);
-    //     console.log(pokemons[i]);
-    //     rr.push(pokemons[i]);
-    //     // setPokemonsPartial(() => pokemons_partial.concat(pokemons[i]));
-    //   }
-    //   console.log(rr);
-    //   // setPokemonsPartial(() => pokemons_partial.concat(rr));
-    //   setPokemonsPartial(rr);
-    // }
-  }, []);
-  // console.log(pokemons_partial);
+  const {
+    pokemons,
+    isLoading,
+    activeType,
+    clickedCard,
+    partialContent,
+    previousType,
+    pokemons_partial,
+    handleLoadMore,
+    setClickedCard,
+  } = usePokemonList();
+
   return (
-    <div>
-      <ul>
-        {isLoading !== "fetching typized pokemons" &&
-          (activeType === ""
-            ? pokemons.map((pokemon) => (
-                <PokemonCard
-                  key={pokemon.id}
-                  pokemonInfo={pokemon}
+    <section className={styles.pokemonsSection}>
+      <div className={styles.pokemonsContainer}>
+        <div className={styles.leftSide}>
+          <ul className={styles.pokemonsList}>
+            {isLoading !== "fetching typized pokemons" &&
+              (activeType === "" ? (
+                <PokemonsCards
+                  pokemonsArr={pokemons}
                   setClickedCard={setClickedCard}
                 />
-              ))
-            : pokemons_partial.map((pokemon) => (
-                <PokemonCard
-                  key={pokemon.id}
-                  pokemonInfo={pokemon}
+              ) : (
+                <PokemonsCards
+                  pokemonsArr={pokemons_partial}
                   setClickedCard={setClickedCard}
                 />
-              )))}
-      </ul>
-      {clickedCard !== 0 && <PokemonInfo pokemonId={clickedCard} />}
-      {isLoading !== "false" ? (
-        <Loader />
-      ) : (
-        ((partialContent < pokemons.length && activeType !== "") ||
-          activeType === "") && (
-          <button onClick={handleLoadMore}>Load more</button>
-        )
-      )}
-    </div>
+              ))}
+          </ul>
+          {isLoading !== "false" ? (
+            <Loader />
+          ) : (
+            ((partialContent < pokemons.length && activeType !== "") ||
+              activeType === "") && (
+              <button className={styles.loadPokemons} onClick={handleLoadMore}>
+                Load more
+              </button>
+            )
+          )}
+        </div>
+        {clickedCard !== 0 && activeType === previousType && (
+          <PokemonInfo pokemonId={clickedCard} />
+        )}
+      </div>
+    </section>
   );
 }

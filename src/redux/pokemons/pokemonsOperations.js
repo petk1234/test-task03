@@ -4,11 +4,13 @@ const baseUrl_ = "https://pokeapi.co/api/v2/pokemon/?limit=12";
 
 const getTypes = () => async (dispatch) => {
   dispatch(pokemonsActions.getTypesRequest());
-  const res = await axios.get("https://pokeapi.co/api/v2/type");
+  const res = await axios
+    .get("https://pokeapi.co/api/v2/type")
+    .catch((error) => dispatch(pokemonsActions.getTypesError(error)));
   dispatch(pokemonsActions.getTypesSuccess(res.data));
 };
 
-const getPokemonInfo = (pokemonUrl) => async (dispatch) => {
+const getPokemonInfo = async (pokemonUrl) => {
   const res = await axios.get(pokemonUrl);
   const pokemon = await res.data;
   return pokemon;
@@ -16,30 +18,24 @@ const getPokemonInfo = (pokemonUrl) => async (dispatch) => {
 
 const getPokemons =
   (baseUrl = baseUrl_) =>
-  async (dispatch, getState) => {
-    const pokemonsLength = getState().pokemons.length + 12;
+  async (dispatch) => {
     dispatch(pokemonsActions.getPokemonsRequest());
     const resPokemons = await axios.get(baseUrl);
     const ff = await Promise.all(
       resPokemons.data.results.map((pokemon) => {
-        return dispatch(getPokemonInfo(pokemon.url));
+        return getPokemonInfo(pokemon.url);
       })
     ).catch((error) => dispatch(pokemonsActions.getPokemonsError(error)));
     dispatch(pokemonsActions.getPokemonSuccess(ff));
-    dispatch(
-      pokemonsActions.getPokemonsSuccess(
-        `https://pokeapi.co/api/v2/pokemon/?offset=${pokemonsLength}&limit=12`
-      )
-    );
+    dispatch(pokemonsActions.getPokemonsSuccess(resPokemons.data.next));
   };
 
 const getPokemonsByTypes = (type) => async (dispatch) => {
   dispatch(pokemonsActions.getTypesPokemonsRequest());
   const resPokemons = await axios.get(`https://pokeapi.co/api/v2/type/${type}`);
-  // console.log(resPokemons.data.pokemon);
   const ff = await Promise.all(
     resPokemons.data.pokemon.map((pokemon) => {
-      return dispatch(getPokemonInfo(pokemon.pokemon.url));
+      return getPokemonInfo(pokemon.pokemon.url);
     })
   ).catch((error) => dispatch(pokemonsActions.getPokemonsError(error)));
   dispatch(pokemonsActions.getPokemonSuccess(ff));

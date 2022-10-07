@@ -39,6 +39,8 @@ const isLoading = createReducer("false", {
   [pokemonsActions.getTypesPokemonsRequest]: () => "fetching typized pokemons",
   [pokemonsActions.getTypesPokemonsSuccess]: () => "false",
   [pokemonsActions.getTypesPokemonsError]: () => "false",
+  [pokemonsActions.setLoading]: () => "loading",
+  [pokemonsActions.unsetLoading]: () => "false",
 });
 const activeType = createReducer("", {
   [pokemonsActions.setType]: (state, { action, payload }) => payload,
